@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routiers Bretons | Chauffeur PL-SPL, choisissez votre rythme </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #0056b3;
+            --brand-green: #2ecc71;
+            --dark: #1a202c;
+            --gray-bg: #f7fafc;
+            --white: #ffffff;
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background: var(--gray-bg); color: var(--dark); line-height: 1.6; }
+
+        /* Header / Hero */
+        .hero {
+            background: linear-gradient(135deg, rgba(26, 32, 44, 0.95), rgba(0, 86, 179, 0.8)), url('Design_sans_titre_(1).jpg');
+            background-size: cover; background-position: center 30%;
+            padding: 80px 20px; text-align: center; color: var(--white);
+        }
+        .hero h1 { font-size: 2.2rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -1px; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+
+        /* Quiz Logic */
+        .main-container { max-width: 600px; margin: -50px auto 50px; padding: 0 20px; }
+        .quiz-card { 
+            background: var(--white); padding: 40px; border-radius: var(--radius); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Progress bar */
+        .progress-bar { height: 8px; background: #edf2f7; border-radius: 4px; margin-bottom: 30px; overflow: hidden; }
+        #fill { height: 100%; background: var(--brand-green); width: 15%; transition: 0.4s ease; }
+
+        /* Steps */
+        .step { display: none; }
+        .step.active { display: block; animation: fadeInUp 0.5s ease forwards; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 800; color: var(--dark); text-align: center; }
+
+        /* Option Grid */
+        .options-grid { display: grid; gap: 15px; }
+        .option-card {
+            border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px;
+            cursor: pointer; transition: all 0.2s; position: relative;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .option-card:hover { border-color: var(--brand-blue); background: #f0f7ff; }
+        .option-card b { font-size: 1.1rem; }
+        .option-card span { font-size: 0.9rem; color: #718096; }
+
+        /* Form styling */
+        input, select { 
+            width: 100%; padding: 18px; border: 2px solid #e2e8f0; 
+            border-radius: 10px; margin-bottom: 15px; font-size: 1rem; 
+        }
+        input:focus { border-color: var(--brand-blue); outline: none; }
+
+        .btn-submit {
+            background: var(--brand-green); color: white; border: none;
+            width: 100%; padding: 20px; border-radius: 12px;
+            font-size: 1.2rem; font-weight: 900; cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(46, 204, 113, 0.3);
+            transition: transform 0.2s;
+        }
+        .btn-submit:hover { transform: translateY(-2px); background: #27ae60; }
+
+        /* Floating Trust Signal */
+        .trust-badge {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 20px; font-size: 0.85rem; color: #a0aec0;
+        }
+
+        footer { text-align: center; padding: 40px; color: #718096; font-size: 0.9rem; }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.6rem; }
+            .quiz-card { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <h1>Routiers Bretons | Chauffeur PL-SPL, choisissez votre rythme</h1>
+    <p>Ne cherchez plus un simple emploi. Choisissez le rythme qui correspond à votre vie. </p>
+</section>
+
+<div class="main-container">
+    <div class="quiz-card">
+        <div class="progress-bar"><div id="fill"></div></div>
+
+        <form id="dreamJobForm">
+            <div class="step active" data-step="1">
+                <h2>Quel est votre rythme idéal ?</h2>
+                <div class="options-grid">
+                    <div class="option-card" onclick="saveAndNext('rythme', 'proximite')">
+                        <div><b>Proximité</b><br><span>Retour quotidien </span></div>
+                        <i>🏠</i>
+                    </div>
+                    <div class="option-card" onclick="saveAndNext('rythme', 'decouché')">
+                        <div><b>Grand Routier</b><br><span>À la semaine </span></div>
+                        <i>🚚</i>
+                    </div>
+                    <div class="option-card" onclick="saveAndNext('rythme', 'mixte')">
+                        <div><b>Mixte / Régional</b><br><span>1 à 2 découchés par semaine</span></div>
+                        <i>🌗</i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" data-step="2">
+                <h2>Sur quel ensemble ?</h2>
+                <div class="options-grid">
+                    <div class="option-card" onclick="saveAndNext('permis', 'CE')">
+                        <div><b>Super Lourd (CE)</b><br><span>Traction, Frigo, Benne...</span></div>
+                    </div>
+                    <div class="option-card" onclick="saveAndNext('permis', 'C')">
+                        <div><b>Porteur (C)</b><br><span>Distribution, Messagerie...</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" data-step="3">
+                <h2>Où souhaitez-vous démarrer ?</h2>
+                <select id="departement" onchange="checkSelect(this)">
+                    <option value="">Choisir un département</option>
+                    <option value="22">22 - Côtes-d'Armor</option>
+                    <option value="29">29 - Finistère</option>
+                    <option value="35">35 - Ille-et-Vilaine</option>
+                    <option value="56">56 - Morbihan</option>
+                </select>
+                <button type="button" class="btn-submit" style="background: var(--brand-blue);" onclick="nextStep()">Continuer</button>
+            </div>
+
+            <div class="step" data-step="4">
+                <h2>Dernière étape !</h2>
+                <p style="text-align: center; margin-bottom: 20px;">On s'occupe de vous trouver le poste correspondant.</p>
+                <input type="text" id="nom" placeholder="Votre Nom et Prénom" required>
+                <input type="tel" id="tel" placeholder="Votre Téléphone (ex: 06...)" required>
+                
+                <div style="margin: 15px 0; text-align: left; font-size: 0.85rem; color: #4a5568;">
+                    <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="consentement" style="width: auto; margin-top: 5px;" required>
+                        <span>En cochant cette case, j'accepte que mes données soient traitées par <b>Routiers Bretons</b> pour me recontacter dans le cadre de ma recherche d'emploi.</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">Recevoir mon Job de Rêve</button>
+                
+                <div class="trust-badge">
+                    <span>🛡️ 100% Confidentialité garantie</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>Service gratuit pour les conducteurs bretons</p>
+    <p>© 2026 Routiers Bretons | <a href="#" style="color: #718096;">Mentions Légales</a></p>
+</footer>
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 4;
+    const userData = {};
+
+    function saveAndNext(key, value) {
+        userData[key] = value;
+        nextStep();
+    }
+
+    function checkSelect(el) {
+        if(el.value !== "") userData['dep'] = el.value;
+    }
+
+    function nextStep() {
+        if (currentStep === 3 && !userData['dep']) {
+            alert("Merci de choisir un département");
+            return;
+        }
+
+        document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+        currentStep++;
+        
+        if (currentStep <= totalSteps) {
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+            updateProgress();
+        }
+    }
+
+    function updateProgress() {
+        const fill = (currentStep / totalSteps) * 100;
+        document.getElementById('fill').style.width = fill + '%';
+    }
+
+    // Fonction de soumission mise à jour avec validation RGPD
+    document.getElementById('dreamJobForm').onsubmit = function(e) {
+        e.preventDefault();
+        
+        const consent = document.getElementById('consentement').checked;
+        if (!consent) {
+            alert("Merci d'accepter le traitement de vos données pour continuer.");
+            return;
+        }
+
+        const nom = document.getElementById('nom').value;
+        const tel = document.getElementById('tel').value;
+        
+        // Enrichissement des données avec preuve de consentement
+        userData['nom'] = nom;
+        userData['tel'] = tel;
+        userData['consentement_rgpd'] = true;
+        userData['date_soumission'] = new Date().toLocaleString('fr-FR');
+        
+        console.log("Données collectées pour envoi :", userData);
+        
+        alert(`Merci ${nom} ! Nous avons bien noté votre envie de faire du ${userData.rythme}. Un conseiller breton vous contactera au ${tel} sous 24h.`);
+    };
+</script>
+
+</body>
+</html>
